@@ -1,0 +1,682 @@
+\documentclass[a4paper, 12pt]{article} 
+\usepackage[utf8]{inputenc} 
+\usepackage{amsmath, amssymb} 
+\usepackage[ngerman]{babel}
+\usepackage[margin=3.5cm]{geometry}
+\usepackage{titlesec} 
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{hyperref}
+
+\title{Abgabe 1 für Computergestützte Methoden}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+\begin{center}  
+    \textbf{Gruppe 100} \\[1 cm]
+    
+    \begin{tabular}{l | l}
+        \textbf{Name} & \textbf{Matrikelnummer} \\ \hline
+        Shainthavi Suthakaran & 4250125 \\
+        Melissa Tursucu & 4020830 \\
+        Gözde Ünal & 4250543 \\
+    \end{tabular} \\[1cm]
+    \text{Abgabedatum: 02.12.2024}
+\end{center}
+
+\vspace{\baselineskip}
+
+\maketitle
+\tableofcontents
+
+\vspace{\baselineskip}
+Der LaTeX-Code für die Abgabe 1 ist unter 
+folgendem Link verfügbar:
+
+\maketitle
+
+\url{https://github.com/melissatuu/group100/blob/main/Abgabe_1_COMET_WiSe2425_Gruppe100.pdf}
+
+\newpage
+
+
+\section{Der zentrale Grenzwertsatz}
+
+Der zentrale Grenzwertsatz (ZGS) ist ein fundamentales Resultat der Wahrscheinlichkeitstheorie, das die Verteilung von Summen unabhängiger, identisch verteilter (i.i.d.) Zufallsvariablen (ZV) beschreibt. Er besagt, dass unter bestimmten Voraussetzungen die Summe einer großen Anzahl solcher ZV annähernd normalverteilt ist, unabhängig von der Verteilung der einzelnen ZV. Dies ist besonders nützlich, da die Normalverteilung gut untersucht und mathematisch handhabbar ist.
+
+\subsection{Aussage}
+Sei \( X_1, X_2,..., X_n \) eine Folge von i.i.d. ZV mit dem Erwartungswert \( \mu = \mathbb{E}(X_i) \) und der Varianz \( \sigma^2 = \mathrm{Var}(X_i) \), wobei \( 0 < \sigma^2 < \infty \) gilt. Dann konvergiert die standardisierte Summe \( Z_n \) dieser ZV für \( n \to \infty \) in Verteilung gegen eine Standardnormalverteilung:\footnote{Der zentrale Grenzwertsatz hat verschiedene Verallgemeinerungen. Eine davon ist der
+\textbf{Lindeberg-Feller-Zentrale-Grenzwertsatz} 
+\cite[Seite 328]{1}, der schwächere Bedingungen an die Unabhängigkeit und die identische Verteilung der ZV stellt.}
+
+\begin{equation}
+    Z_n = \frac{\sum_{i=1}^n X_i - n\mu}{\sigma\sqrt{n}} \xrightarrow{d} \mathcal{N}(0, 1). \label{SummeZn}
+\end{equation}
+
+Das bedeutet, dass für große \( n \) die Summe der ZV näherungsweise normalverteilt ist mit Erwartungswert \(n \mu\) und Varianz \(n \sigma^2\):
+
+\begin{equation}
+    \sum_{i=1}^n X_i \sim \mathcal{N}(n\mu, n\sigma^2).\label{SummeXi}
+\end{equation}
+
+\subsection{Erklärung der Standardisierung}
+Um die Summe der ZV in eine Standardnormalverteilung zu transformieren, subtrahiert man den Erwartungswert \( n\mu \) und teilt durch die Standardabweichung \( \sigma\sqrt{n} \).Dies führt zu der obigen Formel \eqref{SummeZn}. Die Darstellung \eqref{SummeXi} ist für \(n \rightarrow \infty\)
+nicht wohldefiniert.
+
+\newpage
+
+\subsection{Anwendungen}
+Der ZGS wird in vielen Bereichen der Statistik und der Wahrscheinlichkeitstheorie angewendet. Typische Beispiele sind:
+
+\begin{itemize}
+    \item  \textbf{Meinungsumfragen}\footnote{Die Anwendung des zentralen Grenzwertsatzes ist vielfältig. Besonders in der Wissenschaft und Mathematik wird dieser genutzt \cite{3} \label{footnote2}}:
+    Bei Meinungsumfragen wird der Zentrale Grenzwertsatz verwendet, um die Verteilung des Stichprobenmittelwerts zu analysieren. Beispielsweise kann die Zustimmung zu einer politischen Partei in einer großen Population basierend auf einer zufälligen Stichprobe geschätzt werden. Durch den ZGWS folgt der Mittelwert der Zustimmung bei ausreichend großen Stichproben einer Normalverteilung.
+    \item \textbf{Qualitätskontrolle in der
+    Produktion} \hyperlink{footnote.\getrefnumber{footnote2}}{\textsuperscript{\getrefnumber{footnote2}}}:
+    In der industriellen Qualitätskontrolle wird der ZGWS genutzt, um die Schwankungen des Mittelwerts von Produktmerkmalen, wie dem Gewicht oder der Größe, zu überwachen. Wenn beispielsweise eine Stichprobe von 30 Verpackungen gezogen wird, nähert sich der Durchschnitt des Verpackungsgewichtes der Normalverteilung an. Dies ermöglicht es, Abweichungen vom Sollgewicht einfach zu erkennen und die Prozessqualität zu bewerten.
+\end{itemize}
+
+\newpage
+
+\section{Datenhaltung \& -aufbereitung}
+
+\subsection{Datenverarbeitung}
+\subsubsection{Aufgabe 1}
+
+Der zu untersuchende Datensatz umfasst detaillierte Informationen zum Betrieb eines Fahrradverleihs aus dem Jahr 2023. Unsere Gruppe wird sich mit der Station \textit{William St \And Pine St} beschäftigen. 
+\par
+\par
+\vspace{\baselineskip}
+
+\noindent Der Datensatz dokumentiert folgende Informationen:
+
+\begin{itemize}
+    \item \textit{group}: Zuordnung der Stationen für die Gruppen
+    \item \textit{station}: Stationsname des Fahrradverleihs
+    \item \textit{date}: das Datum, an dem die Daten erfasst wurden 
+    \item \textit{day\_of\_year}: Numerische Darstellung des Tages im Jahr
+    \item \textit{day\_of\_week}: Numerische Darstellung des Tages als Wochentag
+    \item \textit{month\_of\_year}: Numerische Darstellung des Monats
+    \item \textit{precipitation}: Niederschlag in mm
+    \item \textit{windspeed}: Windgeschwindigkeit in mph
+    \item \textit{min\_temperature}: Der niedrigste Temperaturwert des Tages in \(^\circ F \)
+    \item \textit{average\_temperature}: Die durchschnittliche Temperatur des Tages 
+    in \(^\circ F \)
+    \item \textit{max\_temperature}: Der höchste Temperaturwert des Tages in \(^\circ F \)
+    \item \textit{count}: Anzahl der Ausleihen
+    
+\vspace{\baselineskip}
+    
+\end{itemize}
+
+Der zu analysierende Datensatz beinhaltet 12 Spalten und 364 Zeilen. Daraus lässt 
+sich schließen, dass bei insgesamt 365 Tagen eines Jahres genau ein Tag im Datensatz fehlt. Dabei handelt es sich um den 16.10.23.
+
+Bei der Analyse der Daten ist anzumerken, dass die Anzahl an Ausleihen in den 
+wärmeren Monaten tendenziell höher ist, als in den kälteren Monaten. Die meisten 
+Ausleihen finden im Monat Juli statt. Somit können wir die Erkenntnis gewinnen, 
+dass die Temperatur einen signifikanten Einfluss auf die Ausleihen von Fahrrädern 
+hat.
+
+Bedauerlicherweise weist dieser Datensatz fehlerhafte Einträge auf. Am 24.01.23 
+wurde eine Ausleihanzahl von -1 angegeben, was unrealistisch ist. 
+Des Weiteren gibt es auch Daten, die mit NAs versehen sind, wie zum Beispiel am 
+20.05.23 bei \textit{average\_temperature}.
+
+\vspace{\baselineskip} 
+
+\subsubsection{Aufgabe 2}
+Um den Datensatz in Excel zu importieren, öffnen wir Excel und klicken 
+auf den Reiter \textit{Daten} der Ribbon-Leiste. Dort klicken wir folgendermaßen 
+durch:
+
+\vspace{\baselineskip} 
+
+\begin{itemize}
+   
+ \item \textit{Daten abrufen \rightarrow Aus Datei \rightarrow Aus Text/CSV}
+\end{itemize}
+
+\vspace{\baselineskip} 
+
+Nun können wir unsere CSV-Datei in Excel importieren. Das sieht folgendermaßen aus:
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Bild1.png}
+    \par Importierter Datensatz
+\end{figure}
+
+\vspace{\baselineskip}
+
+Um die zu untersuchenden Daten zu extrahieren, nutzen wir den Filterpfeil der 
+Spalte \textit{group}, entfernen das Häkchen neben \textit{Alles auswählen} und 
+setzen anschließend nur ein Häkchen bei der Zahl 100, sodass unser Datensatz nun so 
+aussieht:
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Bild2.png}
+    \par Gefilterter Datensatz nach Gruppennummer 100
+\end{figure}
+
+\newpage
+
+\subsubsection{Aufgabe 3}
+Damit wir die höchste mittlere Temperatur in  \(^\circ C\) bestimmen können, fügen wir eine zusätzliche Spalte mit dem Namen \textbf{average c} ein.
+
+Um die Temperatur von \(^\circ F\) in \(^\circ C\) umzuwandeln, wird die folgende Formel angewendet\footnote{Die Formel für die Umrechnung von Fahrenheit in Celsius wurde von \cite{2} entnommen}:
+
+\begin{equation}
+   ^\circ C = (^\circ F -32 )*\frac{5}{9} \label{Grad}
+\end{equation}
+
+\vspace{\baselineskip}
+
+Um die mittlere Temperatur von Fahrenheit in Celsius umzurechnen, wird die oben genannte Formelverwendet. Diese wird direkt in die erste Zelle unter dem Spaltennamen der neu erstellten Spalte eingetragen.
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Bild3.png}
+    \par Formeleingabe zur Umrechnung
+\end{figure}
+
+\vspace{\baselineskip}
+
+Durch [@[average\_temperature]] wird die Formel auf jede Zeile unter \textit{average temperature} angewendet.
+
+Anschließend klicken wir auf den Filterpfeil und sortieren die Daten nach absteigender Größe.
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.95\textwidth]{Bild4.png}
+    \par Sortierte Daten für die mittlere Temperatur in °C
+\end{figure}
+
+\vspace{\baselineskip}
+
+Die höchste mittlere Temperatur wurde am 28.07.23 erfasst und beträgt somit 28,33 \(^\circ C\).
+
+\newpage
+\subsection{Datenhaltung}
+
+\subsubsection{Aufgabe 2}
+Im Folgenden entwerfen wir mithilfe der 1. und 2. Normalform ein Datenbankschema. Die Normalformen sind folgendermaßen definiert\footnote{Die Normalisierung von Datenbanken sind grundlegend um Daten zu strukturieren. Die Definitionen wurden von \cite{4} und \cite{5} entnommen.}:
+
+\vspace{\baselineskip} 
+
+Eine Relation befindet sich in der \textbf{ersten Normalform}, wenn:
+
+\begin{itemize}
+   \item \text{alle Werte atomar sind}
+   \item \text{alle Zeilen eindeutig identifizierbar sind}
+   \item \text{alle Spalten eindeutige Namen besitzen}
+\end{itemize}
+
+\vspace{\baselineskip} 
+
+Eine Relation befindet sich in der \textbf{zweiten Normalform}, wenn:
+
+\begin{itemize}[rightmargin=0pt]
+    \item \text{wenn sie sich bereits in der ersten Normalform befindet}
+    \item \text{jedes Nicht-Schlüsselattribut vollständig vom Primärschlüssel abhängt}
+\end{itemize}
+
+\vspace{\baselineskip} 
+
+Um diese nun in unsere Datenbank zu implementieren, teilen wir die Daten in zwei Tabellen auf. Unsere Idee dabei ist es, die zeitabhängigen Variablen - wie das Datum und die Wetterbedingungen - von den stationären Variablen wie \textit{group} und \textit{station} zu trennen.
+
+\begin{figure}[ht]
+    \centering
+     \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Bildschema.jpeg}
+        \par Geplante Spaltenstruktur 
+    \end{subfigure}
+    \hfill
+     \begin{subfigure}{0.72\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Bild_station.jpeg}
+        \par Datenbankschema in der 1. und 2. Normalform
+    \end{subfigure}
+\end{figure}
+
+\newpage
+Der Pfeil stellt die Verbindung der beiden Tabellen dar. Durch die Spalte \textit{station\_id} werden beide Tabellen miteinander verknüpft. Das Schema sieht wie folgt aus: 
+
+\vspace{\baselineskip}
+
+\begin{itemize}
+    \item stations\textit{(\underline{station\_id\#}, group, station)}
+    \item bike\_sharing\_100\textit{
+    (\underline{station\_id\#, date\#}, day\_of\_year, day\_of\_week,\\ month\_of\_year, precipitation, wind\_speed, min\_temperature,\\ average\_
+    temperature, max\_temperature, count)
+}
+\end{itemize}
+
+\vspace{\baselineskip}
+
+Es ist hinzuzufügen, dass \textit{station\_id} in der Tabelle \textit{bike\_sharing\_100} allein als Fremdschlüssel dient, jedoch in Kombination mit \textit{date} ein Primärschlüssel ist. 
+
+Die erste Normalform wird erfüllt, da alle Zellen in beiden Tabellen nur genau einen Wert beinhalten. In der Tabelle \textit{stations} werden die Zeilen unter der Spalte \textit{station\_id} eindeutig identifizierbar gemacht, da wir \textit{station\_id} als Primärschlüssel
+nutzen. Dadurch, dass \textit{station\_id} ebenfalls in der Tabelle \textit{bike\_sharing\_100} auftaucht, haben wir durch diese Spalte und der Spalte \textit{date} auch die Eindeutigkeit der Zeilen geschaffen.
+
+Da die erste Normalform erfüllt ist und alle Nicht-Schlüsselattribute ausschließlich vom gesamten Primärschlüssel abhängig sind, ist auch die zweite Normalform gegeben.
+
+\newpage
+\subsubsection{Aufgabe 3}
+
+Um nun mithilfe der \textit{DDL (Data Definition Language)} die Datenstruktur in SQL zu definieren, öffnen wir SQLite und gehen folgende Schritte durch:
+
+\vspace{\baselineskip} 
+
+{\fontsize{10}{12}\selectfont
+\texttt{%
+CREATE TABLE stations ( \\
+    station\_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \\
+    {[}GROUP{]} INTEGER NOT NULL, \\
+    station TEXT NOT NULL \\
+);
+}}
+
+\vspace{\baselineskip} 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{Bild7.png}
+    \par Definition der Tabelle \textit{stations}
+\end{figure} 
+
+{\fontsize{10}{12}\selectfont
+\texttt{%
+CREATE TABLE bike\_sharing\_100 ( \\
+    station\_id INTEGER NOT NULL, \\
+    date TEXT NOT NULL, \\
+    day\_of\_year INTEGER, \\
+    day\_of\_week INTEGER, \\
+    month\_of\_year INTEGER, \\
+    precipitation REAL, \\
+    windspeed REAL, \\
+    min\_temperature INTEGER, \\
+    average\_temperature INTEGER, \\
+    max\_temperature INTEGER, \\
+    {[}COUNT{]} INTEGER, \\
+    PRIMARY KEY (station\_id, date), \\
+    FOREIGN KEY (station\_id) REFERENCES stations(station\_id) \\
+);
+}} 
+\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{Bild6.png}
+    \par Definition der Tabelle \textit{bike\_sharing\_100}
+\end{figure}
+
+\newpage
+\subsubsection{Aufgabe 4}
+{\fontsize{12}{15}\selectfont
+Um den Datensatz passend in unsere Tabellen zu importieren, nehmen wir einige Veränderungen an der ursprünglichen Tabelle \textit{bike\_sharing\_with\_NAs} vor. Zunächst müssen wir dafür die CSV-Datei importieren. Da wir \textit{DB Browser for SQLite} benutzen, müssen wir uns folgendermaßen durchklicken:
+
+\vspace{\baselineskip} 
+
+\begin{itemize}
+    \item \textit{File}\rightarrow \textit{Import} \rightarrow \textit{Table from CSV-file}
+\end{itemize} 
+
+\vspace{\baselineskip} 
+
+\begin{figure}[ht]
+    \centering
+      \includegraphics[width=0.45\textwidth]{Screenshots/3.Tabelle_bike_sharing_with_NAs.png}
+        \par Aufbau der importierten Tabelle \textit{bike\_sharing\_data\_with\_NAs} 
+\end{figure}
+
+
+\vspace{\baselineskip} 
+
+Nachdem wir die Tabelle erfolgreich importiert haben, ist zu erkennen, dass die Spalten mit generischen Namen wie c1, c2, c3 usw. versehen sind. Um diese Bezeichner durch die Spaltennamen der Tabelle \textit{bike\_sharing\_with\_NAs} zu ersetzen, verwenden wir den folgenden Befehl:
+
+\vspace{\baselineskip}
+
+{\fontsize{10}{12}\selectfont
+\texttt{% 
+ALTER TABLE bike\_sharing\_data\_with\_NAs \\ RENAME COLUMN old\_column TO 'new\_column';} 
+}
+
+\vspace{\baselineskip}
+
+Mit diesem Befehl passen wir die Spaltenbezeichner an, um die Tabelle besser an die Struktur des tatsächlichen Datensatzes anzupassen.}
+
+\begin{figure}[H] 
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Bild11.png}
+         \par \centering Umbenennung von c1 - c8
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Bild8.png}
+        \par \centering Umbenennung von c9 - c12
+    \end{subfigure}
+\end{figure}
+{\fontsize{12}{15}\selectfont
+\newpage
+
+Dadurch haben wir den Datensatz korrekt beschriftet und die Spaltennamen entsprechend angepasst.
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Screenshots/6.Darstellung_bike_sharing_with_NAs.png}
+    \par Visualisierung der Tabelle \textit{bike\_sharing\_with\_NAs}
+\end{figure}
+
+\vspace{\baselineskip}
+
+
+Bei der Visualisierung der CSV-Datei fällt auf, dass die Spaltennamen fälschlicherweise erneut in der ersten Zeile stehen. Um dies zu korrigieren, verwenden wir den folgenden Befehl:
+
+\vspace{\baselineskip}
+
+{\fontsize{10}{12}\selectfont
+\texttt{% 
+DELETE FROM bike\_sharing\_data\_with\_NAs \\ 
+WHERE column\_name = 'column\_name';} 
+}
+
+\vspace{\baselineskip}
+
+Auf diese Weise werden alle Zellen in der ersten Zeile entfernt.
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Screenshots/7.Entfernung_erste_Zeile_bike_sharing_with_NAs.png}
+    \par Eliminierung der ersten Zeile von \textit{bike\_sharing\_with\_NAs}
+\end{figure}
+
+
+\newpage
+Damit haben wir die Tabelle \textit{bike\_sharing\_with\_NAs} erfolgreich geändert.}
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.65\textwidth]{Screenshots/8.Ganze_Tabelle_ohne erste Zeile.png}
+    \par Aktualisierter Output der Tabelle \textit{bike\_sharing\_with\_NAs}
+\end{figure}
+
+\vspace{\baselineskip}
+
+
+{\fontsize{12}{15}\selectfont
+Nachdem wir diese Tabelle erfolgreich angepasst haben, können wir nun den Datensatz auf unsere Tabellen \textit{stations} und \textit{bike\_sharing\_100} übertragen. Dabei fangen wir mit der Tabelle \textit{stations} an.
+
+Mit dem folgenden Code fügen wir die Daten in die Tabelle \textit{stations} ein, wobei die Spalten \textit{group} und \textit{station} verwendet werden:
+
+\vspace{\baselineskip}
+
+{\fontsize{10}{12}\selectfont
+\texttt{%
+INSERT INTO stations ([GROUP], station) \\
+SELECT \\
+    \hspace*{1.5em} CAST([GROUP] AS INTEGER) AS [GROUP], \\
+    \hspace*{1.5em} station AS station \\
+FROM bike\_sharing\_data\_with\_NAS \\
+GROUP BY station, [GROUP];
+}}
+
+\vspace{\baselineskip}
+
+Da bei \textit{bike\_sharing\_with\_NAs} alle Spalten standardmäßig als TEXT importiert wurden, nutzen wir SELECT, um die Daten zu wählen und wandeln die \textit{group}-Spalte des importierten Datensatzes mit CAST in einen Integer (also in eine ganze Zahl) um.
+Mit GROUP BY gruppieren wir die Daten nach den Spalten \textit{station} und \textit{group}, um möglicherweise redundante oder doppelte Werte zu aggregieren.}
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.55\textwidth]{Screenshots/9.Importierung.png}
+    \par  Befehle zur Importierung der Tabelle \textit{stations}
+\end{figure}
+
+\newpage
+{\fontsize{12}{15}\selectfont
+Unsere Tabelle \textit{stations} hat nun die korrekten Spaltenbezeichnungen und Datentypen.
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Screenshots/10.Tabelle_stations_nach_Importierung.png}
+    \par  Fertige Tabelle \textit{stations}
+\end{figure}
+
+\vspace{\baselineskip}
+
+
+{\fontsize{12}{15}\selectfont
+Nun müssen wir ebenfalls die von uns erstellte Tabelle \textit{bike\_sharing\_100} befüllen und die Datentypen auf unsere Spalten anpassen.
+
+Dazu nutzen wir folgenden Befehl:}
+
+\vspace{\baselineskip}
+
+{\fontsize{10}{12}\selectfont
+\texttt{%
+INSERT INTO bike\_sharing\_100 ( \\
+    \hspace*{1.5em} CAST([GROUP] AS INTEGER) AS [GROUP], \\
+    \hspace*{1.5em} station\_id, date, day\_of\_year, day\_of\_week, \\
+    \hspace*{1.5em} month\_of\_year, precipitation, windspeed, \\
+    \hspace*{1.5em} min\_temperature, average\_temperature, max\_temperature, COUNT \\
+) \\
+SELECT \\
+    \hspace*{1.5em} s.station\_id, \\
+    \hspace*{1.5em} CAST(b.date AS TEXT) AS date, \\
+    \hspace*{1.5em} CAST(b.day\_of\_year AS INTEGER) AS day\_of\_year, \\
+    \hspace*{1.5em} CAST(b.day\_of\_week AS INTEGER) AS day\_of\_week, \\
+    \hspace*{1.5em} CAST(b.month\_of\_year AS INTEGER) AS month\_of\_year, \\
+    \hspace*{1.5em} CAST(b.precipitation AS REAL) AS precipitation, \\
+    \hspace*{1.5em} CAST(b.windspeed AS REAL) AS windspeed, \\
+    \hspace*{1.5em} CAST(b.min\_temperature AS INTEGER) AS min\_temperature, \\
+    \hspace*{1.5em} CAST(b.average\_temperature AS INTEGER) AS average\_temperature, \\
+    \hspace*{1.5em} CAST(b.max\_temperature AS INTEGER) AS max\_temperature, \\
+    \hspace*{1.5em} CAST(b.count AS INTEGER) AS COUNT \\
+FROM bike\_sharing\_data\_with\_NAs b \\
+JOIN stations s \\
+ON b.station = s.station\\
+;}}
+
+\vspace{\baselineskip}
+
+Durch das \textit{b} von FROM bike\_sharing\_data\_with\_NAs \textit{b}, das \textit{s} von JOIN stations \textit{s} und dem Befehl darunter ON b.station = s.station wird die Spalte \textit{station} beider Tabellen miteinander verknüpft.}
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Screenshots/11.Importierung_bike_sharing_100.png}
+    \par Befehle zur Importierung der Tabelle \textit{bike\_sharing\_100}
+\end{figure}
+
+\vspace{\baselineskip}
+
+{\fontsize{12}{15}\selectfont
+Unsere Tabelle \textit{bike\_sharing\_100} hat nun ebenfalls die korrekten Spaltenbezeichnungen und Datentypen.
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Screenshots/12.Tabelle_bike_sharing_100_nach_Importierung.png}
+    \par Tabelle \textit{bike\_sharing\_100} nach Importierung
+\end{figure}
+
+\vspace{\baselineskip}
+
+\newpage
+
+Anschließend filtern wir die Daten für die Tabelle \textit{bike\_sharing\_100}, die wir zuvor erstellt haben. Mit dem folgenden Befehl:
+
+\vspace{\baselineskip}
+
+{\fontsize{10}{12}\selectfont
+\texttt{% 
+DELETE FROM bike\_sharing\_100 \\ WHERE station\_id != 100; }}
+
+\vspace{\baselineskip}
+
+entfernen wir alle Einträge in der Spalte \textit{station\_id}, deren Werte von unserer Id (100) abweicht. Nach der Ausführung dieses Befehls hat unsere Tabelle die folgende Struktur:} 
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+     \includegraphics[width=\textwidth]{Screenshots/14.Fertige_Tabelle_bs_100.png}
+     \par Tabelle 
+     \textit{bike\_sharing\_100} nach 
+     \textit{station\_id = 100} gefiltert
+\end{figure}
+
+\newpage
+
+\subsubsection{Aufgabe 5}
+{\fontsize{12}{15}\selectfont
+Um die Abfrage formulieren zu können, benötigen wir die Spalte \textit{average\_temperature\_celsius}, die wir mithilfe dieses Befehles hinzufügen:
+
+\vspace{\baselineskip}
+{\fontsize{10}{12}\selectfont
+\texttt{%
+ALTER TABLE bike\_sharing\_100 \\
+ADD COLUMN average\_temperature\_celsius REAL;
+}}
+
+\vspace{\baselineskip}
+
+Wir haben der Spalte ebenfalls den Datentyp REAL zugeordnet, damit wir diese mit Gleitkommazahlen befüllen können. \\ Im nächsten Schritt verwenden wir den folgenden Befehl:
+
+\vspace{\baselineskip}
+{\fontsize{10}{12}\selectfont
+\texttt{%
+UPDATE bike\_sharing\_100 \\
+SET average\_temperature\_celsius=(average\_temperature * 1.0 - 32) * 5/9;
+}}
+
+\vspace{\baselineskip}
+
+Dieser Befehl wandelt die Werte der Spalte \textit{average\_temperature} von Fahrenheit in Celsius um und speichert die Ergebnisse in der neuen Spalte \textit{average\_temperature\_celsius}. Das Multiplizieren mit 1.0 stellt sicher, dass die Berechnung mit den richtigen Dezimalstellen erfolgt. 
+
+Nun sieht unsere Tabelle folgendermaßen aus:}
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+     \includegraphics[width=0.9\textwidth]{Bild18.jpg}  
+     \par Tabelle \textit{bike\_sharing\_100} mit der hinzugefügten Spalte \textit{average\_temperature\_celsius} 
+\end{figure}
+
+\vspace{\baselineskip}
+
+\newpage
+{\fontsize{12}{15}\selectfont
+Unser letzter Schritt ist es, die Werte der Spalte \textit{average\_temperature\_celsius} in absteigender Reihenfolge zu sortieren, um dann die höchste mittlere Temperatur zu ermitteln. \\
+Hierfür nutzen wir diesen Befehl:
+
+\vspace{\baselineskip}
+
+
+{\fontsize{10}{12}\selectfont
+\texttt{%
+SELECT * FROM bike\_sharing\_100 \\
+ORDER BY average\_temperature\_celsius DESC;
+}}
+
+\vspace{\baselineskip}
+
+Mit dem \textit{DESC}-Befehl legen wir eine absteigende Reihenfolge fest (engl. 'descending'). Nach Anwendung dieses Befehls sollte unsere Tabelle wie folgt aussehen: 
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\textwidth]{VorletztesBild.jpeg}
+    \par Sortierung der Spalte \textit{average\_temperature\_celsius} in absteigender Reihenfolge
+\end{figure}
+
+\vspace{\baselineskip}
+
+Abschließend haben wir zur Veranschaulichung den Befehl:
+
+\vspace{\baselineskip}
+{\fontsize{10}{12}\selectfont
+\texttt{%
+SELECT date, average\_temperature\_celsius \\
+FROM bike\_sharing\_100 \\
+ORDER BY average\_temperature\_celsius DESC;}}
+
+\vspace{\baselineskip}
+
+genutzt, damit wir ausschließlich die Spalten \textit{date} und \textit{average\_temperature\_celsius} angezeigt bekommen.} 
+
+
+\newpage
+{\fontsize{12}{15}\selectfont
+Final sieht es folgendermaßen aus:
+
+\vspace{\baselineskip}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Bild20.jpg}
+    \par Spalte \textit{date} und \textit{average\_temperature\_celsius} 
+\end{figure}
+
+\vspace{\baselineskip}
+
+Somit können wir dem Datensatz entnehmen, dass am 28.07.23 die höchste mittlere Temperatur gemessen wurde, die \textbf{28,33\(^\circ C\)} betrug.}
+
+\newpage
+
+\begin{thebibliography}{9}
+    \bibitem{1}
+    Achim Klenke. \textit{Wahrscheinlichkeitstheorie.}, Springer, 3. edition, 2013.
+
+    \bibitem{2}
+    \href{https://www.fahrenheit-umrechnen.de/}{https://www.fahrenheit-umrechnen.de/}
+
+    \bibitem{3}
+    \href{https://www.studysmarter.de/studium/mathematik-studium/statistik-studium/der-zentrale-grenzwertsatz/}{https://www.studysmarter.de/studium/mathematik-
+    studium/statistik-studium/der-zentrale-grenzwertsatz/}
+
+    \bibitem{4}
+    \href{https://www.sql-und-xml.de/sql-tutorial/erste-normalform-datentypen.html}{https://www.sql-und-xml.de/sql-tutorial/erste-normalform-datentypen.html}
+
+    \bibitem{5}
+    \href{https://www.sql-und-xml.de/sql-tutorial/zweite-normalform-funktionale-abhaengigkeit.html}{https://www.sql-und-xml.de/sql-tutorial/zweite-normalform-funktionale-abhaengigkeit.html}
+
+\end{thebibliography}
+
+\end{document}
+
+
